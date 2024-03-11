@@ -1,0 +1,26 @@
+{
+  "name": "react-book-review",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "docker compose build",
+    "up": "docker compose up -d",
+    "cypress": "docker compose up e2e"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naoya0117/react-book-review.git"
+  },
+  "keywords": [
+    "react",
+    "cypress",
+    "docker"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/naoya0117/react-book-review/issues"
+  },
+  "homepage": "https://github.com/naoya0117/react-book-review#readme"
+}
