@@ -10,9 +10,9 @@ export const ContentLayout = ({ children, titile, description }: ContentLayoutPr
     return (
         <div>
             <Head title={titile} description={description} />
-            <body className="mx-auto max-w-[1200px] w-[90%]">
+            <div className="mx-auto max-w-[1200px] w-[90%]">
                 <main>{children}</main>
-            </body>
+            </div>
         </div>
     );
 };

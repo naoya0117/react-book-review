@@ -2,23 +2,17 @@ import { Button } from '@/components/Elements';
 import { Form, TextField } from '@/components/Form';
 import { z } from 'zod';
 
-export const SignUpForm = () => {
-    const schema = z
-        .object({
-            email: z
-                .string()
-                .min(1, { message: '必須項目です' })
-                .email({ message: '無効なメールアドレスです' }),
-            password: z
-                .string()
-                .min(1, { message: '必須項目です' })
-                .min(8, { message: 'パスワードは8文字以上で入力してください' }),
-            confirm: z.string(),
-        })
-        .refine((data) => data.password === data.confirm, {
-            message: 'パスワードが一致しません',
-            path: ['confirm'],
-        });
+export const LoginForm = () => {
+    const schema = z.object({
+        email: z
+            .string()
+            .min(1, { message: '必須項目です' })
+            .email({ message: '無効なメールアドレスです' }),
+        password: z
+            .string()
+            .min(1, { message: '必須項目です' })
+            .min(8, { message: 'パスワードは8文字以上で入力してください' }),
+    });
 
     return (
         <Form
@@ -43,14 +37,6 @@ export const SignUpForm = () => {
                         type="password"
                         {...register('password')}
                         error={errors.password?.message}
-                        required
-                    />
-                    <TextField
-                        label="パスワード（確認）"
-                        id="signup-confirm"
-                        type="password"
-                        {...register('confirm')}
-                        error={errors.confirm?.message}
                         required
                     />
                     <Button type="submit">登録</Button>

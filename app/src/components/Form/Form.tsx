@@ -25,7 +25,12 @@ export const Form = <
 }: FormProps<TFormValues, Schema>) => {
     const methods = useForm<TFormValues>({ ...options, resolver: schema && zodResolver(schema) });
     return (
-        <form className={className} onSubmit={methods.handleSubmit(onSubmit)} id={id}>
+        <form
+            className={`flex flex-col ${className}`}
+            onSubmit={methods.handleSubmit(onSubmit)}
+            id={id}
+            noValidate
+        >
             {children(methods)}
         </form>
     );
