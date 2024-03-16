@@ -13,7 +13,7 @@ export const SignUpForm = () => {
                 .string()
                 .min(1, { message: '必須項目です' })
                 .min(8, { message: 'パスワードは8文字以上で入力してください' }),
-            confirm: z.string(),
+            confirm: z.string().min(1, { message: '必須項目です' }),
         })
         .refine((data) => data.password === data.confirm, {
             message: 'パスワードが一致しません',
@@ -35,6 +35,7 @@ export const SignUpForm = () => {
                         id="signup-email"
                         {...register('email')}
                         error={errors.email?.message}
+                        data-test="signup-email"
                         required
                     />
                     <TextField
@@ -43,6 +44,7 @@ export const SignUpForm = () => {
                         type="password"
                         {...register('password')}
                         error={errors.password?.message}
+                        data-test="signup-password"
                         required
                     />
                     <TextField
@@ -51,9 +53,12 @@ export const SignUpForm = () => {
                         type="password"
                         {...register('confirm')}
                         error={errors.confirm?.message}
+                        data-test="signup-confirm"
                         required
                     />
-                    <Button type="submit">登録</Button>
+                    <Button type="submit" data-test="signup-submit">
+                        登録
+                    </Button>
                 </>
             )}
         </Form>

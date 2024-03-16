@@ -26,20 +26,24 @@ export const LoginForm = () => {
                 <>
                     <TextField
                         label="メールアドレス"
-                        id="signup-email"
+                        id="login-email"
                         {...register('email')}
                         error={errors.email?.message}
+                        data-test="login-email"
                         required
                     />
                     <TextField
                         label="パスワード"
-                        id="signup-password"
+                        id="login-password"
                         type="password"
                         {...register('password')}
                         error={errors.password?.message}
+                        data-test="login-password"
                         required
                     />
-                    <Button type="submit">登録</Button>
+                    <Button type="submit" data-test="login-submit">
+                        登録
+                    </Button>
                 </>
             )}
         </Form>

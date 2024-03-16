@@ -11,11 +11,3 @@ const login = async (data: LoginDTO) => {
     const response = await axios.post('/login', data);
     return response.data;
 };
-
-export const useLogin = () => {
-    return useMutation(login, {
-        onSuccess: (data) => {
-            queryClient.setQueryData('user', data);
-        },
-    });
-};

@@ -24,7 +24,9 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
                     {...props}
                 />
                 <div className="h-10">
-                    <div className="text-red-500">{error}</div>
+                    <div className="text-red-500" data-test={`error-${id}`}>
+                        {error}
+                    </div>
                 </div>
             </div>
         );
