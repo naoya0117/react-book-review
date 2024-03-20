@@ -16,7 +16,9 @@ axios.interceptors.request.use(authRequestInterceptor);
 axios.interceptors.response.use(
     (response) => response.data,
     (error) => {
-        const message = error.response?.data?.message || error.message;
+        console.log(error.response.data);
+        console.log(error.response.data.ErrorMessageJP);
+        const message = error.response?.data?.ErrorMessageJP || error.message;
         alert(message);
 
         return Promise.reject(message);

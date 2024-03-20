@@ -6,7 +6,8 @@
   "scripts": {
     "build": "docker compose build",
     "up": "docker compose up -d",
-    "cypress": "docker compose up e2e"
+    "cypress": "docker compose up e2e",
+    "test": "docker compose exec app npm run test"
   },
   "repository": {
     "type": "git",

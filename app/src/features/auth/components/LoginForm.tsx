@@ -1,5 +1,6 @@
 import { Button } from '@/components/Elements';
 import { Form, TextField } from '@/components/Form';
+import { login } from '../api/login';
 import { z } from 'zod';
 
 export const LoginForm = () => {
@@ -15,13 +16,14 @@ export const LoginForm = () => {
     });
 
     return (
-        <Form
+        <Form<z.infer<typeof schema>, typeof schema>
             schema={schema}
             onSubmit={(data) => {
-                console.log(data);
+                login(data);
             }}
             className="w-96 border p-4 rounded-md shadow-md"
         >
+            {/* ログインフォーム */}
             {({ register, formState: { errors } }) => (
                 <>
                     <TextField
@@ -29,7 +31,7 @@ export const LoginForm = () => {
                         id="login-email"
                         {...register('email')}
                         error={errors.email?.message}
-                        data-test="login-email"
+                        data-testid="login-email"
                         required
                     />
                     <TextField
@@ -38,10 +40,10 @@ export const LoginForm = () => {
                         type="password"
                         {...register('password')}
                         error={errors.password?.message}
-                        data-test="login-password"
+                        data-testid="login-password"
                         required
                     />
-                    <Button type="submit" data-test="login-submit">
+                    <Button type="submit" data-testid="login-submit">
                         登録
                     </Button>
                 </>

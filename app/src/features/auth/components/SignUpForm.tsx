@@ -1,10 +1,16 @@
+import { z } from 'zod';
 import { Button } from '@/components/Elements';
 import { Form, TextField } from '@/components/Form';
-import { z } from 'zod';
+import { signUp } from '../api/signUp';
 
 export const SignUpForm = () => {
     const schema = z
         .object({
+            name: z
+                .string()
+                .min(1, { message: '必須項目です' })
+                .min(2, { message: '名前は2文字以上で入力してください' })
+                .max(32, { message: '名前は32文字以下で入力してください' }),
             email: z
                 .string()
                 .min(1, { message: '必須項目です' })
@@ -20,22 +26,33 @@ export const SignUpForm = () => {
             path: ['confirm'],
         });
 
+    type SignUpValues = z.infer<typeof schema>;
+
     return (
-        <Form
+        <Form<SignUpValues, typeof schema>
             schema={schema}
-            onSubmit={(data) => {
-                console.log(data);
+            onSubmit={async (data) => {
+                await signUp({ name: data.name, email: data.email, password: data.password });
             }}
             className="w-96 border p-4 rounded-md shadow-md"
+            data-testid="signup-form"
         >
             {({ register, formState: { errors } }) => (
                 <>
+                    <TextField
+                        label="名前"
+                        id="signup-name"
+                        {...register('name')}
+                        error={errors.name?.message}
+                        data-testid="signup-name"
+                        required
+                    />
                     <TextField
                         label="メールアドレス"
                         id="signup-email"
                         {...register('email')}
                         error={errors.email?.message}
-                        data-test="signup-email"
+                        data-testid="signup-email"
                         required
                     />
                     <TextField
@@ -44,19 +61,19 @@ export const SignUpForm = () => {
                         type="password"
                         {...register('password')}
                         error={errors.password?.message}
-                        data-test="signup-password"
+                        data-testid="signup-password"
                         required
                     />
                     <TextField
                         label="パスワード（確認）"
                         id="signup-confirm"
                         type="password"
-                        {...register('confirm')}
                         error={errors.confirm?.message}
-                        data-test="signup-confirm"
+                        {...register('confirm')}
+                        data-testid="signup-confirm"
                         required
                     />
-                    <Button type="submit" data-test="signup-submit">
+                    <Button type="submit" data-testid="signup-submit">
                         登録
                     </Button>
                 </>

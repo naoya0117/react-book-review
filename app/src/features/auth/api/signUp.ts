@@ -1,11 +1,11 @@
 import { axios } from '@/lib/axios';
 
-type signUpDTO = {
+export type SignUpDTO = {
     name: string;
     email: string;
     password: string;
 };
 
-const signUp = async (data: signUpDTO) => {
-    return axios.post('/auth/sign-up', data);
+export const signUp = async (data: SignUpDTO) => {
+    return axios.post('/users', data);
 };
