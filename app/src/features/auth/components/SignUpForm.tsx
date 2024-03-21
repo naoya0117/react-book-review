@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { Button } from '@/components/Elements';
-import { Form, TextField } from '@/components/Form';
+import { FileField, Form, TextField } from '@/components/Form';
 import { signUp } from '../api/signUp';
 
 export const SignUpForm = () => {
@@ -15,6 +15,14 @@ export const SignUpForm = () => {
                 .string()
                 .min(1, { message: '必須項目です' })
                 .email({ message: '無効なメールアドレスです' }),
+            avatar: z
+                .any()
+                .refine((image) => image instanceof File, {
+                    message: 'ファイルを選択してください',
+                })
+                .refine((image) => ['image/png', 'image/jpg'].includes(image?.type), {
+                    message: 'pngまたはjpg形式の画像を選択してください',
+                }),
             password: z
                 .string()
                 .min(1, { message: '必須項目です' })
@@ -53,6 +61,17 @@ export const SignUpForm = () => {
                         {...register('email')}
                         error={errors.email?.message}
                         data-testid="signup-email"
+                        required
+                    />
+                    <FileField
+                        label="プロフィール画像"
+                        id="signup-avatar"
+                        error={
+                            typeof errors.avatar?.message === 'string'
+                                ? errors.avatar.message
+                                : undefined
+                        }
+                        data-testid="signup-avatar"
                         required
                     />
                     <TextField

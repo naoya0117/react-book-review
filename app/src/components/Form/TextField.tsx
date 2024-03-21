@@ -5,11 +5,12 @@ type TextFieldProps = {
     error?: string;
     required?: boolean;
     className?: string;
+    type?: 'text' | 'password' | 'email' | 'number';
     id: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
-    ({ label, error, required, id, className, ...props }, ref) => {
+    ({ label, error, required, id, className, type, ...props }, ref) => {
         return (
             <div>
                 <label className="block text-sm font-medium text-gray-700" htmlFor={id}>
@@ -20,6 +21,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
                     ref={ref} // refをinput要素に割り当て
                     required={required}
                     id={id}
+                    type={type || 'text'}
                     className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${className}`}
                     {...props}
                 />
