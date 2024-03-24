@@ -38,16 +38,6 @@
             "react-app/jest"
         ]
     },
-    "jest": {
-        "testEnvironment": "node",
-        "moduleNameMapper": {
-            "^@/(.*)$": "<rootDir>/src/$1"
-        },
-        "transform": {
-            "^.+\\.tsx?$": "ts-jest",
-            "^.+\\.js$": "babel-jest"
-        }
-    },
     "browserslist": {
         "production": [
             ">0.2%",
