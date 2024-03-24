@@ -1,8 +1,21 @@
-import { API_URL } from '@/config';
 import Axios, { InternalAxiosRequestConfig } from 'axios';
+import { API_URL } from '@/config';
+import storage from '@/utils/storage';
 
 const authRequestInterceptor = (config: InternalAxiosRequestConfig) => {
-    config.headers.Accept = 'application/json';
+    const token = storage.getToken();
+    if (token) {
+        config.headers.Authorization = `${token}`;
+    }
+
+    //デフォルトのContent-Typeを設定
+    config.headers['Content-Type'] = 'application/json';
+
+    // ファイルアップロードの場合はContent-Typeを削除
+    if (config.data instanceof FormData) {
+        delete config.headers['Content-Type'];
+    }
+
     return config;
 };
 
@@ -14,10 +27,13 @@ export const axios = Axios.create({
 //インスタンスに設定を追加
 axios.interceptors.request.use(authRequestInterceptor);
 axios.interceptors.response.use(
-    (response) => response.data,
+    (response) => {
+        if (response.data.token) {
+            storage.setToken(response.data.token);
+        }
+        return response.data;
+    },
     (error) => {
-        console.log(error.response.data);
-        console.log(error.response.data.ErrorMessageJP);
         const message = error.response?.data?.ErrorMessageJP || error.message;
         alert(message);
 

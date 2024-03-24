@@ -7,5 +7,5 @@ export type SignUpDTO = {
 };
 
 export const signUp = async (data: SignUpDTO) => {
-    return axios.post('/users', data);
+    return await axios.post('/users', data);
 };
