@@ -9,22 +9,22 @@
 - cypress
 - jest
 
-# Build
+## Build
 
 `npm run build`
 
-# Run
+## Run
 
 `npm run up`
 
-# Stop
+## Stop
 
 `npm run down`
 
-# cypress
+## cypress
 
 `npm run cypress`
 
-# Jest
+## Jest
 
 `npm run test`
