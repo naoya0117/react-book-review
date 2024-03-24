@@ -8,12 +8,21 @@ export const UserIconForm = () => {
     const schema = z.object({
         avatar: z
             .any()
-            .refine((image) => image instanceof File, {
+            .optional()
+            .refine((image) => image, {
                 message: 'ファイルを選択してください',
             })
-            .refine((image) => ['image/png', 'image/jpeg'].includes(image.type), {
-                message: 'pngまたはjpg形式の画像を選択してください',
-            }),
+            .refine(
+                (image) => {
+                    if (image instanceof File) {
+                        return image.type === 'image/png' || image.type === 'image/jpeg';
+                    }
+                    return false;
+                },
+                {
+                    message: 'PNGまたはJPEG形式の画像を選択してください',
+                }
+            ),
     });
 
     type UserIconFormValues = z.infer<typeof schema>;
@@ -37,6 +46,7 @@ export const UserIconForm = () => {
 
                 await postUserIcon(formdata);
             }}
+            className="w-96 border p-4 rounded-md shadow-md"
             data-testid="user-icon-uploader"
         >
             {({ setValue, formState: { errors } }) => (

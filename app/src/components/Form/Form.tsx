@@ -10,6 +10,7 @@ type FormProps<TFormValues extends FieldValues, Schema> = {
     options?: UseFormProps<TFormValues>;
     id?: string;
     schema?: Schema;
+    defaultValues?: TFormValues;
 };
 
 export const Form = <
@@ -23,7 +24,10 @@ export const Form = <
     id,
     schema,
 }: FormProps<TFormValues, Schema>) => {
-    const methods = useForm<TFormValues>({ ...options, resolver: schema && zodResolver(schema) });
+    const methods = useForm<TFormValues>({
+        ...options,
+        resolver: schema && zodResolver(schema),
+    });
     return (
         <form
             className={`flex flex-col ${className}`}
