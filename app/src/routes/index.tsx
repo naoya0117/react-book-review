@@ -1,6 +1,7 @@
 import { Outlet, useRoutes } from 'react-router-dom';
 import { MainLayout } from '@/components/Layout';
-import { Login, SignUp } from '@/features/auth/routes';
+import { Book } from '@/features/book';
+import { Login, SignUp } from '@/features/auth';
 import { UserIconUploader } from '@/features/avatar/routes/UserIconUploader';
 
 const App = () => (
@@ -14,6 +15,7 @@ export const AppRoutes = () => {
         {
             element: <App />,
             children: [
+                { path: '/', element: <Book /> },
                 { path: '/login', element: <Login /> },
                 { path: '/signup', element: <SignUp /> },
                 { path: '/user/avatar', element: <UserIconUploader /> },
