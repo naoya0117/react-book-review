@@ -4,6 +4,7 @@ const queryConfig: DefaultOptions = {
     queries: {
         useErrorBoundary: true,
         refetchOnWindowFocus: false,
+        keepPreviousData: true,
         retry: 1,
     },
 };

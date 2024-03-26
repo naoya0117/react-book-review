@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
-
 .css-container {
 	font-family: 'Noto Sans JP', sans-serif;
 	color: #333;
@@ -15,17 +13,12 @@
 		transition: box-shadow 0.3s ease-in-out;
 		margin: 1rem;
 
-		&:hover {
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-		}
-
 		&__title {
-			font-size: 1.2em;
-		}
+			font-size: 1.5rem;
 
-		&__content {
-			padding: 0.5rem;
-			font-size: 1rem;
+			&:hover {
+				color: red;
+			}
 		}
 	}
 }

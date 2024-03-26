@@ -1,7 +1,8 @@
-import { SignUpForm } from './SignUpForm';
+import { SignUpForm } from '../SignUpForm';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
+import { act } from 'react-dom/test-utils';
 
 describe('SignUpForm', () => {
     beforeEach(() => {
@@ -87,5 +88,23 @@ describe('SignUpForm', () => {
             },
             { timeout: 1000 }
         );
+    });
+
+    it('should submit valid form', async () => {
+        userEvent.type(screen.getByTestId('signup-name'), 'name');
+        userEvent.type(screen.getByTestId('signup-email'), 'test@example.com');
+        userEvent.type(screen.getByTestId('signup-password'), 'password');
+        userEvent.type(screen.getByTestId('signup-confirm'), 'password');
+
+        waitFor(() => {
+            screen.getByTestId('signup-submit').click();
+        });
+
+        waitFor(() => {
+            expect(screen.queryByTestId('error-signup-name')).toHaveTextContent('');
+            expect(screen.queryByTestId('error-signup-email')).toHaveTextContent('');
+            expect(screen.queryByTestId('error-signup-password')).toHaveTextContent('');
+            expect(screen.queryByTestId('error-signup-confirm')).toHaveTextContent('');
+        });
     });
 });

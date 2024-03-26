@@ -5,6 +5,7 @@ import Compressor from 'compressorjs';
 import { FileField, Form } from '@/components/Form';
 
 export const UserIconForm = () => {
+    //バリデーションを定義
     const schema = z.object({
         avatar: z
             .any()
@@ -47,7 +48,7 @@ export const UserIconForm = () => {
                 await postUserIcon(formdata);
             }}
             className="w-96 border p-4 rounded-md shadow-md"
-            data-testid="user-icon-uploader"
+            data-testid="user-icon-form"
         >
             {({ setValue, formState: { errors } }) => (
                 <>
@@ -63,7 +64,9 @@ export const UserIconForm = () => {
                         data-testid="user-icon"
                         required
                     />
-                    <Button type="submit">アップロード</Button>
+                    <Button type="submit" data-testid="user-icon-submit">
+                        アップロード
+                    </Button>
                 </>
             )}
         </Form>
