@@ -14,6 +14,7 @@
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 		transition: box-shadow 0.3s ease-in-out;
 		margin: 1rem;
+		max-width: 300px;
 
 		&:hover {
 			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -26,6 +27,26 @@
 		&__content {
 			padding: 0.5rem;
 			font-size: 1rem;
+		}
+	}
+
+	.pagenation {
+		display: flex;
+		justify-content: center;
+		margin-top: 1rem;
+
+		&__item {
+			margin: 0 0.5rem;
+			cursor: pointer;
+			transition: color 0.3s ease-in-out;
+
+			&:hover {
+				color: #007bff;
+			}
+		}
+
+		&__current {
+			color: #007bff;
 		}
 	}
 }

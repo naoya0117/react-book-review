@@ -2,10 +2,14 @@ import { useQuery } from 'react-query';
 import { axios } from '@/lib/axios';
 import { Book } from '../types';
 
-export const getBookList = ({ offset = 0 }): Promise<Book[]> => {
+type GetBookListOptions = {
+    offset?: number;
+};
+
+export const getBookList = ({ offset = 0 }: GetBookListOptions): Promise<Book[]> => {
     return axios.get('/books', {
         params: {
-            offset,
+            offset: offset,
         },
     });
 };
@@ -17,6 +21,6 @@ type UseBookListOptions = {
 export const useBookList = ({ offset = 0 }: UseBookListOptions) => {
     return useQuery({
         queryKey: ['books', offset],
-        queryFn: () => getBookList({ offset }),
+        queryFn: () => getBookList({ offset: offset }),
     });
 };
