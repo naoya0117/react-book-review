@@ -33,17 +33,22 @@ export const UserIconForm = () => {
             schema={schema}
             onSubmit={async (data) => {
                 //画像を圧縮してアップロード
-                await new Promise(() => {
+                const compressedImage = await new Promise<File>((resolve, reject) => {
                     new Compressor(data.avatar, {
                         quality: 0.6,
                         success: (result) => {
-                            data.avatar = result;
+                            if (result instanceof File) {
+                                resolve(result);
+                            }
+                        },
+                        error: (error) => {
+                            reject(error);
                         },
                     });
                 });
 
                 const formdata = new FormData();
-                formdata.append('icon', data.avatar);
+                formdata.append('icon', compressedImage);
 
                 await postUserIcon(formdata);
             }}

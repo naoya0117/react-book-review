@@ -3,7 +3,9 @@ describe('login page', () => {
 		cy.visit('/login');
 	});
 
+	//からフォームが送信されたとき
 	context('login form', () => {
+		//
 		it('should display error when text field is empty', () => {
 			cy.getByData('login-submit').click();
 			cy.getByData('error-login-email').should('have.text', '必須項目です');
@@ -25,6 +27,7 @@ describe('login page', () => {
 			cy.getByData('login-submit').click();
 			cy.getByData('error-login-email').should('not.visible');
 			cy.getByData('error-login-password').should('not.visible');
+			//url の変更を見る
 		});
 	});
 });

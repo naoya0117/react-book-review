@@ -18,8 +18,8 @@ export const LoginForm = () => {
     return (
         <Form<z.infer<typeof schema>, typeof schema>
             schema={schema}
-            onSubmit={(data) => {
-                login(data);
+            onSubmit={async (data) => {
+                await login(data);
             }}
             className="w-96 border p-4 rounded-md shadow-md"
         >
