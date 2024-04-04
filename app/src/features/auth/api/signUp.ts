@@ -6,6 +6,6 @@ export type SignUpDTO = {
     password: string;
 };
 
-export const signUp = async (data: SignUpDTO) => {
+export const signUp = async (data: SignUpDTO): Promise<{ token: string }> => {
     return await axios.post('/users', data);
 };

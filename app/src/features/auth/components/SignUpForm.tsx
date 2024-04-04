@@ -2,10 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { Button } from '@/components/Elements';
 import { Form, TextField } from '@/components/Form';
-import { signUp } from '../api/signUp';
+import { useAuth } from '@/lib/auth';
 
 export const SignUpForm = () => {
+    const { signUp } = useAuth();
     const navigate = useNavigate();
+
     //バリデーションを定義
     const schema = z
         .object({
@@ -36,9 +38,13 @@ export const SignUpForm = () => {
         <Form<SignUpValues, typeof schema>
             schema={schema}
             onSubmit={async (data) => {
+                //送信データからconfirmを除外
+                //eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { confirm, ...withoutConfirm } = data;
                 //サインアップ処理
-                await signUp({ name: data.name, email: data.email, password: data.password });
-                navigate('/user/avatar');
+                await signUp(withoutConfirm).then(() => {
+                    navigate('/user/avatar');
+                });
             }}
             className="w-96 border p-4 rounded-md shadow-md"
             data-testid="signup-form"

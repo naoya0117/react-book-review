@@ -1,8 +1,8 @@
 import { Outlet, useRoutes } from 'react-router-dom';
 import { MainLayout } from '@/components/Layout';
-import { Book } from '@/features/book';
-import { Login, SignUp } from '@/features/auth';
-import { UserIconUploader } from '@/features/avatar/routes/UserIconUploader';
+import { useAuth } from '@/lib/auth';
+import { protectedRoutes } from './protectedRoutes';
+import { publicRoutes } from './publicRoutes';
 
 const App = () => (
     <MainLayout>
@@ -11,18 +11,18 @@ const App = () => (
 );
 
 export const AppRoutes = () => {
+    const { user } = useAuth();
+
+    // 共通のルート
     const commonRoutes = [
         {
             element: <App />,
-            children: [
-                { path: '/', element: <Book /> },
-                { path: '/login', element: <Login /> },
-                { path: '/signup', element: <SignUp /> },
-                { path: '/user/avatar', element: <UserIconUploader /> },
-                { path: '*', element: <div className="text-center">404 Not Found</div> },
-            ],
+            children: [{ path: '*', element: <div className="text-center">404 Not Found</div> }],
         },
     ];
 
-    return useRoutes(commonRoutes);
+    console.log(user);
+    const routes = user ? protectedRoutes : publicRoutes;
+
+    return useRoutes([...routes, ...commonRoutes]);
 };

@@ -4,6 +4,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryClientProvider } from 'react-query';
 import { queryClient } from '@/lib/react-query';
+import { AuthProvider } from '@/lib/auth';
 
 const ErrorFallback = () => {
     return (
@@ -22,7 +23,9 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         <ErrorBoundary FallbackComponent={ErrorFallback}>
             <HelmetProvider>
                 <QueryClientProvider client={queryClient}>
-                    <Router>{children}</Router>
+                    <AuthProvider>
+                        <Router>{children}</Router>
+                    </AuthProvider>
                 </QueryClientProvider>
             </HelmetProvider>
         </ErrorBoundary>

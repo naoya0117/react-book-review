@@ -1,9 +1,12 @@
+import { z } from 'zod';
 import { Button } from '@/components/Elements';
 import { Form, TextField } from '@/components/Form';
-import { login } from '../api/login';
-import { z } from 'zod';
+import { useAuth } from '@/lib/auth';
 
 export const LoginForm = () => {
+    const { login } = useAuth();
+
+    //バリデーションを定義
     const schema = z.object({
         email: z
             .string()

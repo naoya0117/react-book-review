@@ -28,9 +28,6 @@ export const axios = Axios.create({
 axios.interceptors.request.use(authRequestInterceptor);
 axios.interceptors.response.use(
     (response) => {
-        if (response.data.token) {
-            storage.setToken(response.data.token);
-        }
         return response.data;
     },
     (error) => {
