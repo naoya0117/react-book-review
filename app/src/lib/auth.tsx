@@ -4,6 +4,7 @@ import { useState, createContext, useEffect, useContext } from 'react';
 
 type Auth = {
     user: User | null;
+    refetchUser: () => void;
     login: (data: LoginDTO) => Promise<Record<string, unknown>>;
     signUp: (data: SignUpDTO) => Promise<Record<string, unknown>>;
     logout: () => void;
@@ -11,6 +12,7 @@ type Auth = {
 
 const AuthContext = createContext<Auth>({
     user: null,
+    refetchUser: async () => {},
     login: async () => ({}),
     signUp: async () => ({}),
     logout: () => {},
@@ -38,20 +40,29 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
-    // ログイン済みの場合、ユーザー情報を取得
-    useEffect(() => {
+    // ユーザー情報を取得
+    const fetchUser = async () => {
+        setLoading(true);
+
+        //ローカルストレージからトークンを取得
         const token = storage.getToken();
 
+        // トークンがない場合、ユーザー情報を消去
         if (!token) {
+            setUser(null);
             setLoading(false);
             return;
         }
-        const fetchUser = async () => {
-            const user = await getUser();
-            setUser(user);
-            setLoading(false);
-        };
 
+        // ユーザー情報を取得
+        const user = await getUser();
+        setUser(user);
+        setLoading(false);
+    };
+
+    // レンダリング時にユーザー情報を取得
+    useEffect(() => {
+        // ユーザー情報を取得
         fetchUser().catch(() => {
             // ログイン済みのトークンが無効な場合、トークンを削除
             storage.clearToken();
@@ -65,22 +76,33 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const loginFn = async (data: LoginDTO) => {
         const res = await login(data);
+        // ユーザ情報を取得
+        fetchUser();
         return storeToken(res);
     };
 
     const signUpFn = async (data: SignUpDTO) => {
         const res = await signUp(data);
+        // ユーザ情報を取得
+        fetchUser();
         return storeToken(res);
     };
 
     const logoutFn = () => {
         storage.clearToken();
-        setUser(null);
+        // ユーザ情報をクリア
+        fetchUser();
     };
 
     return (
         <AuthContext.Provider
-            value={{ user: user, login: loginFn, signUp: signUpFn, logout: logoutFn }}
+            value={{
+                user: user,
+                refetchUser: fetchUser,
+                login: loginFn,
+                signUp: signUpFn,
+                logout: logoutFn,
+            }}
         >
             {children}
         </AuthContext.Provider>

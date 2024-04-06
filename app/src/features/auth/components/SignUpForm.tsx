@@ -42,9 +42,8 @@ export const SignUpForm = () => {
                 //eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const { confirm, ...withoutConfirm } = data;
                 //サインアップ処理
-                await signUp(withoutConfirm).then(() => {
-                    navigate('/user/avatar');
-                });
+                await signUp(withoutConfirm);
+                navigate('/user/avatar');
             }}
             className="w-96 border p-4 rounded-md shadow-md"
             data-testid="signup-form"
