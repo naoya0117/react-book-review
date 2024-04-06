@@ -36,21 +36,28 @@ type AuthProviderProps = {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
 
     // ログイン済みの場合、ユーザー情報を取得
     useEffect(() => {
         const token = storage.getToken();
 
         if (!token) {
+            setLoading(false);
             return;
         }
         const fetchUser = async () => {
             const user = await getUser();
             setUser(user);
+            setLoading(false);
         };
 
         fetchUser();
     }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     const loginFn = async (data: LoginDTO) => {
         const res = await login(data);

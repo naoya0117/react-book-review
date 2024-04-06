@@ -13,6 +13,8 @@ const App = () => (
 export const AppRoutes = () => {
     const { user } = useAuth();
 
+    const routes = user ? protectedRoutes : publicRoutes;
+
     // 共通のルート
     const commonRoutes = [
         {
@@ -20,9 +22,6 @@ export const AppRoutes = () => {
             children: [{ path: '*', element: <div className="text-center">404 Not Found</div> }],
         },
     ];
-
-    console.log(user);
-    const routes = user ? protectedRoutes : publicRoutes;
 
     return useRoutes([...routes, ...commonRoutes]);
 };
