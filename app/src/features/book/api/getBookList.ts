@@ -7,7 +7,7 @@ type GetBookListOptions = {
 };
 
 export const getBookList = ({ offset = 0 }: GetBookListOptions): Promise<Book[]> => {
-    return axios.get('/books', {
+    return axios.get('/public/books', {
         params: {
             offset: offset,
         },

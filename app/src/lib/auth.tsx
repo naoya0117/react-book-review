@@ -52,11 +52,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             setLoading(false);
         };
 
-        fetchUser();
+        fetchUser().catch(() => {
+            // ログイン済みのトークンが無効な場合、トークンを削除
+            storage.clearToken();
+            setLoading(false);
+        });
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return null;
     }
 
     const loginFn = async (data: LoginDTO) => {

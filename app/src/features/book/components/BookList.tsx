@@ -41,11 +41,13 @@ export const BookList = () => {
     }
 
     return (
-        <div className="css-container">
+        <div className="booklist">
             {bookListQuery.data?.map((book) => (
                 <div key={book.id} className="card">
                     <p className="card__title">{book.title}</p>
-                    <p>{book.url}</p>
+                    <a href={book.url} className="card__url">
+                        {book.url}
+                    </a>
                 </div>
             ))}
             <Pagenation page={page} setPage={setPage} />
