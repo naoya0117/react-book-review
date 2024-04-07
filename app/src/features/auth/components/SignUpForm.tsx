@@ -43,6 +43,7 @@ export const SignUpForm = () => {
                 const { confirm, ...withoutConfirm } = data;
                 //サインアップ処理
                 await signUp(withoutConfirm);
+                new Promise((resolve) => setTimeout(resolve, 1000));
                 navigate('/user/avatar');
             }}
             className="w-96 border p-4 rounded-md shadow-md"

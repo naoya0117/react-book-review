@@ -1,5 +1,6 @@
 import { Button } from '@/components/Elements';
 import { useAuth } from '@/lib/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Logo = () => {
     return (
@@ -14,15 +15,27 @@ const Logo = () => {
 const AuthButton = () => {
     const { user, logout } = useAuth();
     const isLogin = user !== null;
+    const navigate = useNavigate();
 
     return (
         <div>
             {isLogin ? (
-                <Button onClick={logout} className="text-white">
-                    Logout
-                </Button>
+                <div>
+                    <Button onClick={() => navigate('/user/profile')} className="text-white mr-2">
+                        Profile
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            logout;
+                            navigate('/');
+                        }}
+                        className="text-white"
+                    >
+                        Logout
+                    </Button>
+                </div>
             ) : (
-                <Button onClick={() => (window.location.href = '/login')} className="text-white">
+                <Button onClick={() => navigate('/login')} className="text-white">
                     Login
                 </Button>
             )}

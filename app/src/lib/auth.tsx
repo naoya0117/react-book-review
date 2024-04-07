@@ -29,6 +29,7 @@ const storeToken = async (response: ResponseIncludeToken) => {
 
     //ローカルストレージにトークンを保存
     storage.setToken(token);
+    // 新しいユーザー情報を取得
     return rest;
 };
 
@@ -56,7 +57,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
         // ユーザー情報を取得
         const user = await getUser();
-        setUser(user);
+        setUser(user ?? null);
         setLoading(false);
     };
 
@@ -70,22 +71,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         });
     }, []);
 
-    if (loading) {
-        return null;
-    }
-
     const loginFn = async (data: LoginDTO) => {
         const res = await login(data);
         // ユーザ情報を取得
+        const withOutToken = storeToken(res);
         fetchUser();
-        return storeToken(res);
+
+        return withOutToken;
     };
 
     const signUpFn = async (data: SignUpDTO) => {
         const res = await signUp(data);
         // ユーザ情報を取得
+        const withOutToken = storeToken(res);
         fetchUser();
-        return storeToken(res);
+
+        return withOutToken;
     };
 
     const logoutFn = () => {
@@ -93,6 +94,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         // ユーザ情報をクリア
         fetchUser();
     };
+
+    if (loading) {
+        return null;
+    }
 
     return (
         <AuthContext.Provider
