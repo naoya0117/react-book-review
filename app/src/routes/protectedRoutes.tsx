@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { MainLayout } from '@/components/Layout';
-import { Book } from '@/features/book';
+import { RegisterBook, BookDetail, BookList, EditBook } from '@/features/book';
 import { UserIconUploader } from '@/features/avatar';
 import { UpdateProfile } from '@/features/user';
 
@@ -14,7 +14,10 @@ export const protectedRoutes = [
     {
         element: <App />,
         children: [
-            { path: '/', element: <Book /> },
+            { path: '/', element: <BookList /> },
+            { path: '/new', element: <RegisterBook /> },
+            { path: '/edit/:id', element: <EditBook /> },
+            { path: '/detail/:id', element: <BookDetail /> },
             { path: '/signup', element: <Navigate to="/" /> },
             { path: '/login', element: <Navigate to="/" /> },
             { path: '/user/avatar', element: <UserIconUploader /> },

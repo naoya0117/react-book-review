@@ -1,6 +1,9 @@
 import { useBookList } from '../api/getBookList';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useAuth } from '@/lib/auth';
+import { Link } from '@/components/Elements';
+import { postLog } from '../api/postLog';
 
 type PagenationProps = {
     page: number;
@@ -28,13 +31,14 @@ const Pagenation = ({ page, setPage }: PagenationProps) => {
     );
 };
 
-export const BookList = () => {
+export const DisplayBookList = () => {
     const [page, setPage] = useState(1);
-    const bookListQuery = useBookList({ offset: (page - 1) * 10 });
+    const { user } = useAuth();
+    const bookListQuery = useBookList({ isLogin: user ? true : false, offset: (page - 1) * 10 });
 
     useEffect(() => {
         bookListQuery.refetch();
-    }, [page]);
+    }, [page, user]);
 
     if (bookListQuery.isLoading) {
         return <div>Loading...</div>;
@@ -43,12 +47,17 @@ export const BookList = () => {
     return (
         <div className="booklist">
             {bookListQuery.data?.map((book) => (
-                <div key={book.id} className="card">
+                <Link
+                    key={book.id}
+                    to={`/detail/${book.id}`}
+                    className="card"
+                    onClick={async () => {
+                        await postLog({ selectBookId: book.id });
+                    }}
+                >
                     <p className="card__title">{book.title}</p>
-                    <a href={book.url} className="card__url">
-                        {book.url}
-                    </a>
-                </div>
+                    {book.isMine && <Link to={`/edit/${book.id}`}>編集</Link>}
+                </Link>
             ))}
             <Pagenation page={page} setPage={setPage} />
         </div>

@@ -4,10 +4,13 @@ import { Book } from '../types';
 
 type GetBookListOptions = {
     offset?: number;
+    isLogin: boolean;
 };
 
-export const getBookList = ({ offset = 0 }: GetBookListOptions): Promise<Book[]> => {
-    return axios.get('/public/books', {
+export const getBookList = ({ offset = 0, isLogin }: GetBookListOptions): Promise<Book[]> => {
+    const url = isLogin ? '/books' : 'public/books';
+
+    return axios.get(url, {
         params: {
             offset: offset,
         },
@@ -16,11 +19,12 @@ export const getBookList = ({ offset = 0 }: GetBookListOptions): Promise<Book[]>
 
 type UseBookListOptions = {
     offset?: number;
+    isLogin: boolean;
 };
 
-export const useBookList = ({ offset = 0 }: UseBookListOptions) => {
+export const useBookList = ({ isLogin, offset = 0 }: UseBookListOptions) => {
     return useQuery({
         queryKey: ['books', offset],
-        queryFn: () => getBookList({ offset: offset }),
+        queryFn: () => getBookList({ offset: offset, isLogin: isLogin }),
     });
 };

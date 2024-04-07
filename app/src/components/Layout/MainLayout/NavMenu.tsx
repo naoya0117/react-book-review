@@ -1,13 +1,13 @@
-import { Button } from '@/components/Elements';
+import { Button, Link } from '@/components/Elements';
 import { useAuth } from '@/lib/auth';
 import { useNavigate } from 'react-router-dom';
 
 const Logo = () => {
     return (
         <div className="text-2xl font-bold">
-            <a href="/" className="text-white">
+            <Link to="/" className="text-white hover:text-white">
                 Bookshelf
-            </a>
+            </Link>
         </div>
     );
 };
@@ -26,7 +26,7 @@ const AuthButton = () => {
                     </Button>
                     <Button
                         onClick={() => {
-                            logout;
+                            logout();
                             navigate('/');
                         }}
                         className="text-white"
